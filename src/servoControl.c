@@ -60,6 +60,7 @@ void servoControlInit(timerCB cbIn)
     pwmInit.TIM_OCIdleState  = TIM_OCNIdleState_Reset;
     pwmInit.TIM_OCNIdleState = TIM_OCNIdleState_Reset;
     TIM_OC1Init(SERVO_TIM, &pwmInit);
+    TIM_OC1PolarityConfig(SERVO_TIM, TIM_OCPolarity_Low);
     TIM_OC1PreloadConfig(SERVO_TIM, TIM_OCPreload_Enable);
     TIM_GenerateEvent(SERVO_TIM, TIM_EventSource_Update);
     TIM_CtrlPWMOutputs(SERVO_TIM, ENABLE);
