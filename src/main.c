@@ -76,6 +76,7 @@ void gpStartAutoSwitcherCommandCb(uint8_t channel,
 
 void rccConfig(void) {
     RCC_PCLK2Config(RCC_HCLK_Div2);
+    RCC_PCLK1Config(RCC_HCLK_Div2);
     RCC_ADCCLKConfig(RCC_PCLK2_Div8);
 }
 
@@ -92,6 +93,25 @@ int main(void)
     uint32_t cnt = 72000;
     while(cnt-- > 2){}
     rccConfig();
+
+    temperatureImitatorInit();
+    int data = 10;
+    bool dir = true;
+    while(1) {
+
+       if (dir) {
+            if (data <= 10) {
+                dir = false;
+            }
+           setTemperature(data--);
+       } else {
+            if (data >= 9990) {
+                dir = true;
+            }
+           setTemperature(data++);
+       }
+       for (volatile int i = 0; i < 1000; i++){};
+    }
 
     //initSysTic();
     ringBuffInit(&rxRingBuff, RING_BUFF_DEPTH);
