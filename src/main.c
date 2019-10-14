@@ -27,6 +27,7 @@ void gpStartAutoSwitcherCommandCb(uint8_t channel,
                                   uint16_t offTime,
                                   uint16_t onTime,
                                   uint32_t cnt);
+void gpSetTemperatureCommandCb(int temperature);
 
 const GpInitCb gpInitCb = {
     .gpSendCb                       = gpSendCb,
@@ -34,6 +35,7 @@ const GpInitCb gpInitCb = {
     .gpStartClockWiseCommandCb      = gpStartClockWiseCommandCb,
     .gpStartContrClockWiseCommandCb = gpStartContrClockWiseCommandCb,
     .gpStartAutoSwitcherCommandCb   = gpStartAutoSwitcherCommandCb,
+    .gpSetTemperatureCommandCb      = gpSetTemperatureCommandCb,
 };
 
 void usbHIDRxCB(uint8_t epNumber, uint8_t numRx, uint8_t *rxData)
@@ -74,6 +76,11 @@ void gpStartAutoSwitcherCommandCb(uint8_t channel,
     powerSwitcherStart(offTime, onTime);
 }
 
+void gpSetTemperatureCommandCb(int temperature)
+{
+   setTemperature(temperature);
+}
+
 void rccConfig(void) {
     RCC_PCLK2Config(RCC_HCLK_Div2);
     RCC_PCLK1Config(RCC_HCLK_Div2);
@@ -95,23 +102,7 @@ int main(void)
     rccConfig();
 
     temperatureImitatorInit();
-    int data = 10;
-    bool dir = true;
-    while(1) {
 
-       if (dir) {
-            if (data <= 10) {
-                dir = false;
-            }
-           setTemperature(data--);
-       } else {
-            if (data >= 9990) {
-                dir = true;
-            }
-           setTemperature(data++);
-       }
-       for (volatile int i = 0; i < 1000; i++){};
-    }
 
     //initSysTic();
     ringBuffInit(&rxRingBuff, RING_BUFF_DEPTH);
