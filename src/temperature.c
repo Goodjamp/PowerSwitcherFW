@@ -4,14 +4,7 @@
 #include "stm32f10x_RCC.h"
 #include "stm32f10x.h"
 
-#define DAC_TIM         TIM2
-#define DAC_ENABLE_TIM  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2 ,ENABLE);
-#define DAC_BASE_PSC                   0
-#define DAC_TIM_ARP                    10000
 
-#define DAC_PORT        GPIOA
-#define DAC_PIN         GPIO_Pin_0
-#define DAC_ENABLE_GPIO RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA , ENABLE);
 
 void temperatureImitatorInit(void)
 {
@@ -57,8 +50,68 @@ void temperatureImitatorInit(void)
 
 }
 
+void setTimerCompareValue(uint16_t value)
+{
+    TIM_SetCompare1(DAC_TIM, value);
+    TIM_Cmd(DAC_TIM, ENABLE);
+}
+
+void generateTemperatureFlashTable(void)
+{
+    #define TEMPERATURE_TABLE_FLASH_ADDR    0x0800FC00
+    #define TEMPERATURE_TABLE_SIZE          50
+    #define TEMPERATURE_STEP                5
+    #define TEMPERATURE_LOW_TRESHOLD        -45
+    #define BUTTON_PIN                      GPIO_Pin_4
+    #define BUTTON_PORT                     GPIOB
+    #define LED_PIN                         GPIO_Pin_13
+    #define LED_PORT                        GPIOC
+    uint32_t compareValue = DAC_TIM_ARP - 1;
+    GPIO_InitTypeDef initGpio;
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+
+    initGpio.GPIO_Mode  = GPIO_Mode_IPU;
+    initGpio.GPIO_Pin   = BUTTON_PIN;
+    initGpio.GPIO_Speed = GPIO_Speed_10MHz;
+    GPIO_Init(BUTTON_PORT, &initGpio);
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+
+    initGpio.GPIO_Mode  = GPIO_Mode_Out_PP;
+    initGpio.GPIO_Pin   = LED_PIN;
+    initGpio.GPIO_Speed = GPIO_Speed_10MHz;
+    GPIO_Init(LED_PORT, &initGpio);
+    GPIO_WriteBit(LED_PORT, LED_PIN, Bit_SET);
+
+    FLASH_Unlock();
+    FLASH_ErasePage(TEMPERATURE_TABLE_FLASH_ADDR);
+    for (uint32_t i = 0; i < TEMPERATURE_TABLE_SIZE; i++) {
+         while(GPIOB->IDR & BUTTON_PIN) {
+            if (compareValue == 0) {
+                return;
+            }
+            setTimerCompareValue(--compareValue);
+            for (volatile uint32_t j = 0; j < 600000; j++) {
+                if (!(GPIOB->IDR & BUTTON_PIN)) {
+                    break;
+                }
+            };
+         };
+         FLASH_WaitForLastOperation(1000);
+         FLASH_ProgramHalfWord(TEMPERATURE_TABLE_FLASH_ADDR + (i * 2), compareValue);
+         while(!(GPIOB->IDR & BUTTON_PIN)) {};
+         GPIO_WriteBit(LED_PORT, LED_PIN, Bit_RESET);
+         for (volatile uint32_t j = 0; j < 200000; j++) {};
+         GPIO_WriteBit(LED_PORT, LED_PIN, Bit_SET);
+    }
+    FLASH_Lock();
+}
+
 void setTemperature(int temperature)
 {
-    TIM_SetCompare1(DAC_TIM, temperature);
-    TIM_Cmd(DAC_TIM, ENABLE);
+    temperature += -TEMPERATURE_LOW_TRESHOLD;
+    temperature /= TEMPERATURE_STEP;
+    uint32_t tableValue = *((uint16_t*)(TEMPERATURE_TABLE_FLASH_ADDR + (temperature * 2)));
+
+    setTimerCompareValue(tableValue);
 }

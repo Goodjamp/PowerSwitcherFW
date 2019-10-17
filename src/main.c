@@ -11,6 +11,7 @@
 #include "generalProtocol.h"
 #include "usbHIDInterface.h"
 #include "usb_user_setings.h"
+#include "temperature.h"
 
 #define EP_N               1
 
@@ -87,6 +88,8 @@ void rccConfig(void) {
     RCC_ADCCLKConfig(RCC_PCLK2_Div8);
 }
 
+
+
 int main(void)
 {
     uint32_t rxSize;
@@ -101,8 +104,8 @@ int main(void)
     while(cnt-- > 2){}
     rccConfig();
 
-    temperatureImitatorInit();
 
+    temperatureImitatorInit();
 
     //initSysTic();
     ringBuffInit(&rxRingBuff, RING_BUFF_DEPTH);
@@ -114,6 +117,7 @@ int main(void)
         if(popRingBuff(&rxRingBuff, rxBuff, &rxSize)) {
             gpDecode(rxBuff, rxSize);
         };
+
         if(usbHIDEPIsReadyToTx(EP_01) ) {
             if(popRingBuff(&txRingBuff, txBuff, &txSize)) {
                 usbHIDTx(EP_01, txBuff, BUFF_SIZE);
