@@ -66,6 +66,8 @@
 "C:\PowerSwitcherFW\src\servoControl.h"
 "C:\PowerSwitcherFW\src\startup_stm32f10x_md.S"
 "C:\PowerSwitcherFW\src\system_stm32f10x.c"
+"C:\PowerSwitcherFW\src\temperature.c"
+"C:\PowerSwitcherFW\src\temperature.h"
 "C:\PowerSwitcherFW\STM32_USB-FS-Device_Driver\core\inc\usb_core.h"
 "C:\PowerSwitcherFW\STM32_USB-FS-Device_Driver\core\inc\usb_def.h"
 "C:\PowerSwitcherFW\STM32_USB-FS-Device_Driver\core\inc\usb_init.h"

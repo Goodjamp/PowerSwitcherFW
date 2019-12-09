@@ -107,11 +107,12 @@ void generateTemperatureFlashTable(void)
     FLASH_Lock();
 }
 
-void setTemperature(int temperature)
+void setTemperature(uint16_t pwm)
 {
+    /*
     temperature += -TEMPERATURE_LOW_TRESHOLD;
     temperature /= TEMPERATURE_STEP;
     uint32_t tableValue = *((uint16_t*)(TEMPERATURE_TABLE_FLASH_ADDR + (temperature * 2)));
-
-    setTimerCompareValue(tableValue);
+*/
+    setTimerCompareValue(pwm);
 }

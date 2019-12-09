@@ -1,4 +1,4 @@
-cscope 15 C:\PowerSwitcherFW"               0000926977
+cscope 15 C:\PowerSwitcherFW"               0000932276
 	@C:\PowerSwitcherFW\SPL\inc\misc.h
 
 24 #i‚de‡
@@ -137029,17 +137029,21 @@ COMMAND_DATA_FLAG_32_BIT_SIZE
 	mGP_START_AUTO_SWITCHER
  = 4,
 
-21 } 
+21 
+	mGP_SET_TEMPERATURE
+ = 5,
+
+22 } 
 	tGP_COMMAND
 ;
 
-23 #¥agm®
+24 #¥agm®
 ∑ck
 (
 push
 , 1)
 
-24 
+25 
 	#PROTOCOL_BUFF_SIZE
  (
 BUFF_SIZE
@@ -137047,133 +137051,147 @@ BUFF_SIZE
 
 	)
 
-26 
+27 
 uöt8_t
  
 	mch™√l
 ;
 
-27 
+28 
 uöt8_t
  
 	mÊags
 ;
 
-28 
+29 
 uöt16_t
  
 	m˙t
 ;
 
-29 
+30 
 uöt8_t
  
 	md©a
 [];
 
-30 }
+31 }
 	tGpD©aSubcomm™d
 ;
 
-33 
+34 
 uöt8_t
  
 	mch™√l
 ;
 
-34 }
+35 }
 	tGpSèπClockWi£Subcomm™d
 ;
 
-37 
+38 
 uöt8_t
  
 	mch™√l
 ;
 
-38 }
+39 }
 	tGpSèπC⁄åClockWi£Subcomm™d
 ;
 
-41 
+42 
 uöt8_t
  
 	mch™√l
 ;
 
-42 }
+43 }
 	tGpSt›tSubcomm™d
 ;
 
-45 
+46 
 uöt8_t
  
 	mch™√l
-;
-
-46 
-uöt16_t
- 
-	moffTime
 ;
 
 47 
 uöt16_t
  
-	m⁄Time
+	moffTime
 ;
 
 48 
+uöt16_t
+ 
+	m⁄Time
+;
+
+49 
 uöt32_t
  
 	m˙t
 ;
 
-49 }
+50 }
 	tGpSèπAutoSwôchî
 ;
 
-51 
+53 
+	mãm≥øtuª
+;
+
+54 }
+	tGpSëTem≥øtuª
+;
+
+56 
 	sGpComm™d
 {
 
-52 
+57 
 uöt8_t
  
 	mhódr
 ;
 
-54 
+59 
 GpD©aSubcomm™d
  
 	md©aSubCom™d
 ;
 
-55 
+60 
 GpSèπClockWi£Subcomm™d
  
 	m°¨tClockWi£Subcomm™d
 ;
 
-56 
+61 
 GpSèπC⁄åClockWi£Subcomm™d
  
 	m°¨tC⁄åClockWi£Subcomm™d
 ;
 
-57 
+62 
 GpSt›tSubcomm™d
  
 	m°›tSubcomm™d
 ;
 
-58 
+63 
 GpSèπAutoSwôchî
  
 	m°¨tAutoSwôchîSubcomm™d
 ;
 
-59 
+64 
+GpSëTem≥øtuª
+ 
+	m£tTem≥øtuªSubComm™d
+;
+
+65 
 uöt8_t
  
 	mbuffSubCom™d
@@ -137181,17 +137199,17 @@ uöt8_t
 PROTOCOL_BUFF_SIZE
 ];
 
-61 } 
+67 } 
 	tGpComm™d
 ;
 
-64 
+70 
 GpComm™d
  
 	mcomm™d
 ;
 
-65 
+71 
 uöt8_t
  
 	mbuff
@@ -137199,17 +137217,17 @@ uöt8_t
 GpComm™d
 )];
 
-66 } 
+72 } 
 	tGpComm™dBuff
  ;
 
-67 #¥agm®
+73 #¥agm®
 ∑ck
 (
 p›
 )
 
-69 c⁄° 
+75 c⁄° 
 GpInôCb
  *
 	ggpCbLi°
@@ -137217,7 +137235,7 @@ GpInôCb
 NULL
 ;
 
-71 
+77 
 	$gpInô
 (c⁄° 
 GpInôCb
@@ -137225,17 +137243,17 @@ GpInôCb
 gpCbIn
 ){
 
-72 
+78 
 gpCbLi°
  = 
 gpCbIn
 ;
 
-73 
+79 
 	}
 }
 
-75 
+81 
 	$gpDecode
 (
 uöt8_t
@@ -137247,13 +137265,13 @@ uöt32_t
 size
 )
 
-77 if(
+83 if(
 size
  < 
 BUFF_SIZE
 );
 
-78 
+84 
 GpComm™d
  *
 gpComm™d
@@ -137261,17 +137279,17 @@ gpComm™d
 buff
 ;
 
-79 
+85 
 gpComm™d
 ->
 hódr
 ) {
 
-80 
+86 
 GP_STOP
 :
 
-81 i‡(
+87 i‡(
 gpCbLi°
 ->
 gpSt›Comm™dCb
@@ -137279,7 +137297,7 @@ gpSt›Comm™dCb
 NULL
 ) {
 
-82 
+88 
 gpCbLi°
 ->
 	`gpSt›Comm™dCb
@@ -137291,11 +137309,11 @@ gpComm™d
 ch™√l
 );
 
-85 
+91 
 GP_START_CLOCK_WISE
 :
 
-86 i‡(
+92 i‡(
 gpCbLi°
 ->
 gpSèπClockWi£Comm™dCb
@@ -137303,7 +137321,7 @@ gpSèπClockWi£Comm™dCb
 NULL
 ) {
 
-87 
+93 
 gpCbLi°
 ->
 	`gpSèπClockWi£Comm™dCb
@@ -137315,11 +137333,11 @@ gpComm™d
 ch™√l
 );
 
-90 
+96 
 GP_START_CONTR_CLOCK_WISE
 :
 
-91 i‡(
+97 i‡(
 gpCbLi°
 ->
 gpSèπC⁄åClockWi£Comm™dCb
@@ -137327,7 +137345,7 @@ gpSèπC⁄åClockWi£Comm™dCb
 NULL
 ) {
 
-92 
+98 
 gpCbLi°
 ->
 	`gpSèπC⁄åClockWi£Comm™dCb
@@ -137339,11 +137357,11 @@ gpComm™d
 ch™√l
 );
 
-95 
+101 
 GP_START_AUTO_SWITCHER
 :
 
-96 i‡(
+102 i‡(
 gpCbLi°
 ->
 gpSèπAutoSwôchîComm™dCb
@@ -137351,7 +137369,7 @@ gpSèπAutoSwôchîComm™dCb
 NULL
 ) {
 
-97 
+103 
 gpCbLi°
 ->
 	`gpSèπAutoSwôchîComm™dCb
@@ -137363,7 +137381,7 @@ gpComm™d
 ch™√l
 ,
 
-98 
+104 
 gpComm™d
 ->
 °¨tAutoSwôchîSubcomm™d
@@ -137371,7 +137389,7 @@ gpComm™d
 offTime
 ,
 
-99 
+105 
 gpComm™d
 ->
 °¨tAutoSwôchîSubcomm™d
@@ -137379,7 +137397,7 @@ gpComm™d
 ⁄Time
 ,
 
-100 
+106 
 gpComm™d
 ->
 °¨tAutoSwôchîSubcomm™d
@@ -137387,11 +137405,35 @@ gpComm™d
 ˙t
 );
 
-105 
+109 
+GP_SET_TEMPERATURE
+:
+
+110 i‡(
+gpCbLi°
+->
+gpSëTem≥øtuªComm™dCb
+ !
+NULL
+) {
+
+111 
+gpCbLi°
+->
+	`gpSëTem≥øtuªComm™dCb
+(
+gpComm™d
+->
+£tTem≥øtuªSubComm™d
+.
+ãm≥øtuª
+);
+
+116 
 	}
 }
 
-107 
+118 
 boﬁ
  
 	$gpSídD©aComm™d
@@ -137411,13 +137453,13 @@ COMMAND_DATA_FLAG
 ch™√l
 )
 
-109 
+120 
 GpComm™dBuff
  
 d©aComm™d
  = {
 
-110 .
+121 .
 comm™d
 .
 hódr
@@ -137425,7 +137467,7 @@ hódr
 GP_DATA
 
 
-112 
+123 
 d©aComm™d
 .
 comm™d
@@ -137435,7 +137477,7 @@ d©aSubCom™d
 ch™√l
  = channel;
 
-113 
+124 
 d©aComm™d
 .
 comm™d
@@ -137445,15 +137487,15 @@ d©aSubCom™d
 ˙t
  = cnt;
 
-114 
+125 
 Êags
 ) {
 
-115 
+126 
 COMMAND_DATA_FLAG_8_BIT_SIZE
 :
 
-116 
+127 
 	`SET_DATA_8_BIT
 (
 d©aComm™d
@@ -137465,11 +137507,11 @@ d©aSubCom™d
 Êags
 );
 
-118 
+129 
 COMMAND_DATA_FLAG_16_BIT_SIZE
 :
 
-119 
+130 
 	`SET_DATA_16_BIT
 (
 d©aComm™d
@@ -137481,11 +137523,11 @@ d©aSubCom™d
 Êags
 );
 
-121 
+132 
 COMMAND_DATA_FLAG_32_BIT_SIZE
 :
 
-122 
+133 
 	`SET_DATA_32_BIT
 (
 d©aComm™d
@@ -137497,11 +137539,11 @@ d©aSubCom™d
 Êags
 );
 
-125  
+136  
 Ál£
 ;
 
-127 
+138 
 	`mem˝y
 ((
 uöt8_t
@@ -137517,7 +137559,7 @@ d©a
 ˙t
 );
 
-128 
+139 
 gpCbLi°
 ->
 	`gpSídCb
@@ -137527,11 +137569,11 @@ d©aComm™d
 buff
 , (dataCommand));
 
-129  
+140  
 åue
 ;
 
-130 
+141 
 	}
 }
 
@@ -137639,45 +137681,57 @@ _GENERAL_PROTOCOL_H__
 	t˙t
 );
 
-24 
+23 (*
+	tGpSëTem≥øtuªComm™dCb
+)(
+	tãm≥øtuª
+);
+
+25 
 	sGpInôCb
  {
 
-25 
+26 
 GpSídCb
  
 gpSídCb
 ;
 
-26 
+27 
 GpSt›Comm™dCb
  
 gpSt›Comm™dCb
 ;
 
-27 
+28 
 GpSèπClockWi£Comm™dCb
  
 gpSèπClockWi£Comm™dCb
 ;
 
-28 
+29 
 GpSèπC⁄åClockWi£Comm™dCb
  
 gpSèπC⁄åClockWi£Comm™dCb
 ;
 
-29 
+30 
 GpSèπAutoSwôchîComm™dCb
  
 gpSèπAutoSwôchîComm™dCb
 ;
 
-30 } 
+31 
+GpSëTem≥øtuªComm™dCb
+ 
+gpSëTem≥øtuªComm™dCb
+;
+
+32 } 
 	tGpInôCb
 ;
 
-32 
+34 
 	`gpInô
 (c⁄° 
 GpInôCb
@@ -137685,7 +137739,7 @@ GpInôCb
 gpCbIn
 );
 
-33 
+35 
 	`gpDecode
 (
 uöt8_t
@@ -137697,7 +137751,7 @@ uöt32_t
 size
 );
 
-34 
+36 
 boﬁ
  
 	`gpSídD©aComm™d
@@ -137763,25 +137817,33 @@ ch™√l
 	~"usb_u£r_£tögs.h
 "
 
-15 
+14 
+	~"ãm≥øtuª.h
+"
+
+15 
+	~"m©h.h
+"
+
+17 
 	#EP_N
  1
 
 	)
 
-17 
+19 
 RögBuff
  
 	grxRögBuff
 ;
 
-18 
+20 
 RögBuff
  
 	gtxRögBuff
 ;
 
-19 
+21 
 uöt8_t
  
 	gtxBuff
@@ -137789,7 +137851,7 @@ uöt8_t
 BUFF_SIZE
 ];
 
-20 
+22 
 uöt8_t
  
 	grxBuff
@@ -137797,7 +137859,7 @@ uöt8_t
 BUFF_SIZE
 ];
 
-22 
+24 
 gpSídCb
 (
 uöt8_t
@@ -137809,24 +137871,8 @@ uöt32_t
 size
 );
 
-23 
-gpSt›Comm™dCb
-(
-uöt8_t
- 
-ch™√l
-);
-
-24 
-gpSèπClockWi£Comm™dCb
-(
-uöt8_t
- 
-ch™√l
-);
-
 25 
-gpSèπC⁄åClockWi£Comm™dCb
+gpSt›Comm™dCb
 (
 uöt8_t
  
@@ -137834,6 +137880,22 @@ ch™√l
 );
 
 26 
+gpSèπClockWi£Comm™dCb
+(
+uöt8_t
+ 
+ch™√l
+);
+
+27 
+gpSèπC⁄åClockWi£Comm™dCb
+(
+uöt8_t
+ 
+ch™√l
+);
+
+28 
 gpSèπAutoSwôchîComm™dCb
 (
 uöt8_t
@@ -137841,59 +137903,191 @@ uöt8_t
 ch™√l
 ,
 
-27 
+29 
 uöt16_t
  
 offTime
 ,
 
-28 
+30 
 uöt16_t
  
 ⁄Time
 ,
 
-29 
+31 
 uöt32_t
  
 ˙t
 );
 
-31 c⁄° 
+32 
+gpSëTem≥øtuªComm™dCb
+(
+ãm≥øtuª
+);
+
+34 c⁄° 
 GpInôCb
  
 	ggpInôCb
  = {
 
-32 .
+35 .
 gpSídCb
  = gpSendCb,
 
-33 .
+36 .
 	ggpSt›Comm™dCb
  = 
 gpSt›Comm™dCb
 ,
 
-34 .
+37 .
 	ggpSèπClockWi£Comm™dCb
  = 
 gpSèπClockWi£Comm™dCb
 ,
 
-35 .
+38 .
 	ggpSèπC⁄åClockWi£Comm™dCb
  = 
 gpSèπC⁄åClockWi£Comm™dCb
 ,
 
-36 .
+39 .
 	ggpSèπAutoSwôchîComm™dCb
  = 
 gpSèπAutoSwôchîComm™dCb
 ,
 
-39 
+40 .
+	ggpSëTem≥øtuªComm™dCb
+ = 
+gpSëTem≥øtuªComm™dCb
+,
+
+43 
+uöt16_t
+ 
+	$ãm≥øtuªToPwm
+(
+ãm≥øtuª
+)
+
+45 
+	#Thîmi°‹_K2C
+ (273.15f)
+
+	)
+
+46 
+	#THA
+ (0.0006728238f)
+
+	)
+
+47 
+	#THB
+ (0.0002910997f)
+
+	)
+
+48 
+	#THC
+ (8.412704E-11f)
+
+	)
+
+49 
+	#RESISTOR_DIVIDER_VALUE
+ 10000
+
+	)
+
+50 
+	#SUPPLY_VOLTAGE
+ 3.3f
+
+	)
+
+51 
+	#MAX_PWM_VALUE
+ 0xFA0
+
+	)
+
+53 
+x
+, 
+y
+, 
+rThîmi°‹
+, 
+u
+;
+
+55 
+x
+ = (1 / 
+THC
+Ë* (
+THA
+ - (1 / (
+ãm≥øtuª
+ + 
+Thîmi°‹_K2C
+)));
+
+56 
+y
+ = 
+	`sqπ
+(((
+THB
+ / (3 * 
+THC
+)Ë* (THB / (3 * THC)Ë* (THB / (3 * THC))Ë+ (
+x
+ / 2) * (x / 2));
+
+57 
+rThîmi°‹
+ = 
+	`exp
+(
+	`pow
+(
+y
+ - 
+x
+ / 2, 1.0f / 3.0f) -Öow(y + x / 2, 1.0f / 3.0f));
+
+58 
+u
+ = 
+SUPPLY_VOLTAGE
+ * (
+rThîmi°‹
+ / (rThîmi°‹ + 
+RESISTOR_DIVIDER_VALUE
+));
+
+59  (
+uöt16_t
+)(()((
+MAX_PWM_VALUE
+ * 
+u
+Ë/ 
+SUPPLY_VOLTAGE
+));
+
+60 
+	}
+}
+
+62 
 	$usbHIDRxCB
 (
 uöt8_t
@@ -137905,7 +138099,7 @@ numRx
 rxD©a
 )
 
-41 
+64 
 	`pushRögBuff
 (&
 rxRögBuff
@@ -137915,19 +138109,19 @@ rxD©a
 numRx
 );
 
-42 
+65 
 	}
 }
 
-44 
+67 
 	$txCom∂ëeCB
 ()
 
-46 
+69 
 	}
 }
 
-48 
+71 
 	$gpSídCb
 (
 uöt8_t
@@ -137939,7 +138133,7 @@ uöt32_t
 size
 )
 
-50 
+73 
 	`pushRögBuff
 (&
 txRögBuff
@@ -137949,11 +138143,11 @@ buff
 size
 );
 
-51 
+74 
 	}
 }
 
-53 
+76 
 	$gpSt›Comm™dCb
 (
 uöt8_t
@@ -137961,21 +138155,21 @@ uöt8_t
 ch™√l
 )
 
-55 
+78 
 	`£rvoC⁄åﬁSt›
 ();
 
-56 
+79 
 	`rögBuffCÀ¨
 (&
 txRögBuff
 );
 
-57 
+80 
 	}
 }
 
-59 
+82 
 	$gpSèπClockWi£Comm™dCb
 (
 uöt8_t
@@ -137983,17 +138177,17 @@ uöt8_t
 ch™√l
 )
 
-61 
+84 
 	`£rvoC⁄åﬁSèπ
 (1, 
 CLOCKWISE
 );
 
-62 
+85 
 	}
 }
 
-64 
+87 
 	$gpSèπC⁄åClockWi£Comm™dCb
 (
 uöt8_t
@@ -138001,17 +138195,17 @@ uöt8_t
 ch™√l
 )
 
-66 
+89 
 	`£rvoC⁄åﬁSèπ
 (1, 
 COUNTERCLOCKWISE
 );
 
-67 
+90 
 	}
 }
 
-69 
+92 
 	$gpSèπAutoSwôchîComm™dCb
 (
 uöt8_t
@@ -138019,25 +138213,25 @@ uöt8_t
 ch™√l
 ,
 
-70 
+93 
 uöt16_t
  
 offTime
 ,
 
-71 
+94 
 uöt16_t
  
 ⁄Time
 ,
 
-72 
+95 
 uöt32_t
  
 ˙t
 )
 
-74 
+97 
 	`powîSwôchîSèπ
 (
 offTime
@@ -138045,91 +138239,119 @@ offTime
 ⁄Time
 );
 
-75 
+98 
 	}
 }
 
-77 
+100 
+	$gpSëTem≥øtuªComm™dCb
+(
+ãm≥øtuª
+)
+
+102 
+	`£tTem≥øtuª
+(
+	`ãm≥øtuªToPwm
+(
+ãm≥øtuª
+));
+
+103 
+	}
+}
+
+105 
 	$rccC⁄fig
 () {
 
-78 
+106 
 	`RCC_PCLK2C⁄fig
 (
 RCC_HCLK_Div2
 );
 
-79 
+107 
+	`RCC_PCLK1C⁄fig
+(
+RCC_HCLK_Div2
+);
+
+108 
 	`RCC_ADCCLKC⁄fig
 (
 RCC_PCLK2_Div8
 );
 
-80 
+109 
 	}
 }
 
-82 
+111 
 	$maö
 ()
 
-84 
+113 
 uöt32_t
  
 rxSize
 ;
 
-85 
+114 
 uöt32_t
  
 txSize
 ;
 
-86 
+115 
 	`öôTe°Gpio
 ();
 
-87 
+116 
 	`gpInô
 (&
 gpInôCb
 );
 
-88 
+117 
 	`usbHIDInô
 ();
 
-89 
+118 
 	`usbHIDAddRxCB
 (
 usbHIDRxCB
 );
 
-90 
+119 
 	`usbHIDAddTxCom∂ëeCB
 (
 txCom∂ëeCB
 );
 
-91 
+120 
 	`rccC⁄fig
 ();
 
-92 
+121 
 uöt32_t
  
 ˙t
  = 72000;
 
-93 
+122 
 ˙t
 -- > 2){}
 
-94 
+123 
 	`rccC⁄fig
 ();
 
-97 
+126 
+	`ãm≥øtuªImô©‹Inô
+();
+
+129 
 	`rögBuffInô
 (&
 rxRögBuff
@@ -138137,7 +138359,7 @@ rxRögBuff
 RING_BUFF_DEPTH
 );
 
-98 
+130 
 	`rögBuffInô
 (&
 txRögBuff
@@ -138145,17 +138367,17 @@ txRögBuff
 RING_BUFF_DEPTH
 );
 
-99 
+131 
 	`£rvoC⁄åﬁInô
 (
 NULL
 );
 
-100 
+132 
 	`rccC⁄fig
 ();
 
-103 if(
+136 if(
 	`p›RögBuff
 (&
 rxRögBuff
@@ -138165,7 +138387,7 @@ rxBuff
 rxSize
 )) {
 
-104 
+137 
 	`gpDecode
 (
 rxBuff
@@ -138173,13 +138395,13 @@ rxBuff
 rxSize
 );
 
-106 if(
+140 if(
 	`usbHIDEPIsRódyToTx
 (
 EP_01
 ) ) {
 
-107 if(
+141 if(
 	`p›RögBuff
 (&
 txRögBuff
@@ -138189,7 +138411,7 @@ txBuff
 txSize
 )) {
 
-108 
+142 
 	`usbHIDTx
 (
 EP_01
@@ -138199,7 +138421,7 @@ txBuff
 BUFF_SIZE
 );
 
-112 
+146 
 	}
 }
 
@@ -139487,9 +139709,9 @@ size
 rögBuff
 ->
 wrôeP
- = (++rögBuff->wrôePË&&ÑögBuff->
+ = (++rögBuff->wrôePË&& (rögBuff->
 size
-;
+ - 1);
 
 48 
 rögBuff
@@ -139599,9 +139821,9 @@ d©aSize
 rögBuff
 ->
 ªadP
- = (++rögBuff->ªadPË&&ÑögBuff->
+ = (++rögBuff->ªadPË&& (rögBuff->
 size
-;
+ - 1);
 
 66 
 rögBuff
@@ -144519,6 +144741,654 @@ RCC_CFGR_SWS
 	}
 }
 
+	@C:\PowerSwitcherFW\src\temperature.c
+
+1 
+	~"ãm≥øtuª.h
+"
+
+2 
+	~"°m32f10x_GPIO.h
+"
+
+3 
+	~"°m32f10x_TIM.h
+"
+
+4 
+	~"°m32f10x_RCC.h
+"
+
+5 
+	~"°m32f10x.h
+"
+
+9 
+	$ãm≥øtuªImô©‹Inô
+()
+
+12 
+GPIO_InôTy≥Def
+ 
+öôGpio
+;
+
+14 
+	`RCC_APB2PîùhClockCmd
+(
+RCC_APB2Pîùh_AFIO
+, 
+ENABLE
+);
+
+16 
+DAC_ENABLE_GPIO
+;
+
+18 
+öôGpio
+.
+GPIO_Mode
+ = 
+GPIO_Mode_AF_PP
+;
+
+19 
+öôGpio
+.
+GPIO_Pö
+ = 
+DAC_PIN
+;
+
+20 
+öôGpio
+.
+GPIO_S≥ed
+ = 
+GPIO_S≥ed_10MHz
+;
+
+21 
+	`GPIO_Inô
+(
+DAC_PORT
+, &
+öôGpio
+);
+
+23 
+TIM_OCInôTy≥Def
+ 
+pwmInô
+;
+
+24 
+TIM_TimeBa£InôTy≥Def
+ 
+ba£Inô
+;
+
+27 
+DAC_ENABLE_TIM
+;
+
+28 
+	`TIM_TimeBa£Såu˘Inô
+(&
+ba£Inô
+);
+
+29 
+ba£Inô
+.
+TIM_ClockDivisi⁄
+ = 
+TIM_CKD_DIV1
+;
+
+30 
+ba£Inô
+.
+TIM_Cou¡îMode
+ = 
+TIM_Cou¡îMode_Up
+;
+
+31 
+ba£Inô
+.
+TIM_Pîiod
+ = 
+DAC_TIM_ARP
+;
+
+32 
+ba£Inô
+.
+TIM_PªsˇÀr
+ = 
+DAC_BASE_PSC
+;
+
+33 
+ba£Inô
+.
+TIM_Rïëôi⁄Cou¡î
+ = 0;
+
+34 
+	`TIM_TimeBa£Inô
+(
+DAC_TIM
+, &
+ba£Inô
+);
+
+36 
+	`TIM_OCSåu˘Inô
+(&
+pwmInô
+);
+
+37 
+pwmInô
+.
+TIM_OCMode
+ = 
+TIM_OCMode_PWM1
+;
+
+38 
+pwmInô
+.
+TIM_OuçutSèã
+ = 
+TIM_OuçutSèã_E«bÀ
+;
+
+39 
+pwmInô
+.
+TIM_OuçutNSèã
+ = 
+TIM_OuçutNSèã_E«bÀ
+;
+
+40 
+pwmInô
+.
+TIM_OCPﬁ¨ôy
+ = 
+TIM_OCPﬁ¨ôy_High
+;
+
+41 
+pwmInô
+.
+TIM_OCNPﬁ¨ôy
+ = 
+TIM_OCNPﬁ¨ôy_High
+;
+
+42 
+pwmInô
+.
+TIM_OCIdÀSèã
+ = 
+TIM_OCNIdÀSèã_Re£t
+;
+
+43 
+pwmInô
+.
+TIM_OCNIdÀSèã
+ = 
+TIM_OCNIdÀSèã_Re£t
+;
+
+44 
+	`TIM_OC1Inô
+(
+DAC_TIM
+, &
+pwmInô
+);
+
+45 
+	`TIM_OC1Pﬁ¨ôyC⁄fig
+(
+DAC_TIM
+, 
+TIM_OCPﬁ¨ôy_Low
+);
+
+46 
+	`TIM_OC1PªlﬂdC⁄fig
+(
+DAC_TIM
+, 
+TIM_OCPªlﬂd_E«bÀ
+);
+
+48 
+	`TIM_CålPWMOuçuts
+(
+DAC_TIM
+, 
+ENABLE
+);
+
+51 
+	}
+}
+
+53 
+	$£tTimîCom∑ªVÆue
+(
+uöt16_t
+ 
+vÆue
+)
+
+55 
+	`TIM_SëCom∑ª1
+(
+DAC_TIM
+, 
+vÆue
+);
+
+56 
+	`TIM_Cmd
+(
+DAC_TIM
+, 
+ENABLE
+);
+
+57 
+	}
+}
+
+59 
+	$gíî©eTem≥øtuªFœshTabÀ
+()
+
+61 
+	#TEMPERATURE_TABLE_FLASH_ADDR
+ 0x0800FC00
+
+	)
+
+62 
+	#TEMPERATURE_TABLE_SIZE
+ 50
+
+	)
+
+63 
+	#TEMPERATURE_STEP
+ 5
+
+	)
+
+64 
+	#TEMPERATURE_LOW_TRESHOLD
+ -45
+
+	)
+
+65 
+	#BUTTON_PIN
+ 
+GPIO_Pö_4
+
+
+	)
+
+66 
+	#BUTTON_PORT
+ 
+GPIOB
+
+
+	)
+
+67 
+	#LED_PIN
+ 
+GPIO_Pö_13
+
+
+	)
+
+68 
+	#LED_PORT
+ 
+GPIOC
+
+
+	)
+
+69 
+uöt32_t
+ 
+com∑ªVÆue
+ = 
+DAC_TIM_ARP
+ - 1;
+
+70 
+GPIO_InôTy≥Def
+ 
+öôGpio
+;
+
+71 
+	`RCC_APB2PîùhClockCmd
+(
+RCC_APB2Pîùh_GPIOB
+, 
+ENABLE
+);
+
+73 
+öôGpio
+.
+GPIO_Mode
+ = 
+GPIO_Mode_IPU
+;
+
+74 
+öôGpio
+.
+GPIO_Pö
+ = 
+BUTTON_PIN
+;
+
+75 
+öôGpio
+.
+GPIO_S≥ed
+ = 
+GPIO_S≥ed_10MHz
+;
+
+76 
+	`GPIO_Inô
+(
+BUTTON_PORT
+, &
+öôGpio
+);
+
+78 
+	`RCC_APB2PîùhClockCmd
+(
+RCC_APB2Pîùh_GPIOC
+, 
+ENABLE
+);
+
+80 
+öôGpio
+.
+GPIO_Mode
+ = 
+GPIO_Mode_Out_PP
+;
+
+81 
+öôGpio
+.
+GPIO_Pö
+ = 
+LED_PIN
+;
+
+82 
+öôGpio
+.
+GPIO_S≥ed
+ = 
+GPIO_S≥ed_10MHz
+;
+
+83 
+	`GPIO_Inô
+(
+LED_PORT
+, &
+öôGpio
+);
+
+84 
+	`GPIO_WrôeBô
+(
+LED_PORT
+, 
+LED_PIN
+, 
+Bô_SET
+);
+
+86 
+	`FLASH_U∆ock
+();
+
+87 
+	`FLASH_Eø£Page
+(
+TEMPERATURE_TABLE_FLASH_ADDR
+);
+
+88 
+uöt32_t
+ 
+i
+ = 0; i < 
+TEMPERATURE_TABLE_SIZE
+; i++) {
+
+89 
+GPIOB
+->
+IDR
+ & 
+BUTTON_PIN
+) {
+
+90 i‡(
+com∑ªVÆue
+ == 0) {
+
+93 
+	`£tTimîCom∑ªVÆue
+(--
+com∑ªVÆue
+);
+
+94 vﬁ©ûê
+uöt32_t
+ 
+j
+ = 0; j < 600000; j++) {
+
+95 i‡(!(
+GPIOB
+->
+IDR
+ & 
+BUTTON_PIN
+)) {
+
+100 
+	`FLASH_WaôF‹La°O≥øti⁄
+(1000);
+
+101 
+	`FLASH_ProgømHÆfW‹d
+(
+TEMPERATURE_TABLE_FLASH_ADDR
+ + (
+i
+ * 2), 
+com∑ªVÆue
+);
+
+102 !(
+GPIOB
+->
+IDR
+ & 
+BUTTON_PIN
+)) {};
+
+103 
+	`GPIO_WrôeBô
+(
+LED_PORT
+, 
+LED_PIN
+, 
+Bô_RESET
+);
+
+104 vﬁ©ûê
+uöt32_t
+ 
+j
+ = 0; j < 200000; j++) {};
+
+105 
+	`GPIO_WrôeBô
+(
+LED_PORT
+, 
+LED_PIN
+, 
+Bô_SET
+);
+
+107 
+	`FLASH_Lock
+();
+
+108 
+	}
+}
+
+110 
+	$£tTem≥øtuª
+(
+uöt16_t
+ 
+pwm
+)
+
+117 
+	`£tTimîCom∑ªVÆue
+(
+pwm
+);
+
+118 
+	}
+}
+
+	@C:\PowerSwitcherFW\src\temperature.h
+
+1 
+	#DAC_TIM
+ 
+TIM2
+
+
+	)
+
+2 
+	#DAC_ENABLE_TIM
+ 
+	`RCC_APB1PîùhClockCmd
+(
+RCC_APB1Pîùh_TIM2
+ ,
+ENABLE
+);
+
+	)
+
+3 
+	#DAC_BASE_PSC
+ 0
+
+	)
+
+4 
+	#DAC_TIM_ARP
+ 4000
+
+	)
+
+6 
+	#DAC_PORT
+ 
+GPIOA
+
+
+	)
+
+7 
+	#DAC_PIN
+ 
+GPIO_Pö_0
+
+
+	)
+
+8 
+	#DAC_ENABLE_GPIO
+ 
+	`RCC_APB2PîùhClockCmd
+(
+RCC_APB2Pîùh_GPIOA
+ , 
+ENABLE
+);
+
+	)
+
+9 
+	~"°döt.h
+"
+
+11 
+ãm≥øtuªImô©‹Inô
+();
+
+12 
+£tTimîCom∑ªVÆue
+(
+uöt16_t
+ 
+vÆue
+);
+
+13 
+gíî©eTem≥øtuªFœshTabÀ
+();
+
+14 
+£tTem≥øtuª
+(
+uöt16_t
+ 
+pwm
+);
+
 	@C:\PowerSwitcherFW\stm32f103c8_flash.ld
 
 33 
@@ -145403,8 +146273,8 @@ __HópLimô
 1
 .
 0
-103
-5151
+105
+5225
 C:\PowerSwitcherFW\SPL\inc\misc.h
 C:\PowerSwitcherFW\SPL\inc\stm32f10x_adc.h
 C:\PowerSwitcherFW\SPL\inc\stm32f10x_bkp.h
@@ -145506,5 +146376,7 @@ C:\PowerSwitcherFW\src\servoControl.c
 C:\PowerSwitcherFW\src\servoControl.h
 C:\PowerSwitcherFW\src\startup_stm32f10x_md.S
 C:\PowerSwitcherFW\src\system_stm32f10x.c
+C:\PowerSwitcherFW\src\temperature.c
+C:\PowerSwitcherFW\src\temperature.h
 C:\PowerSwitcherFW\stm32f103c8_flash.ld
 C:\PowerSwitcherFW\stm32f103c8_sram.ld

@@ -12,6 +12,7 @@
 #include "usbHIDInterface.h"
 #include "usb_user_setings.h"
 #include "temperature.h"
+#include "math.h"
 
 #define EP_N               1
 
@@ -38,6 +39,25 @@ const GpInitCb gpInitCb = {
     .gpStartAutoSwitcherCommandCb   = gpStartAutoSwitcherCommandCb,
     .gpSetTemperatureCommandCb      = gpSetTemperatureCommandCb,
 };
+
+uint16_t temperatureToPwm(int temperature)
+{
+    #define Thermistor_K2C               (273.15f)
+    #define THA                          (0.0006728238f)
+    #define THB                          (0.0002910997f)
+    #define THC                          (8.412704E-11f)
+    #define RESISTOR_DIVIDER_VALUE       10000
+    #define SUPPLY_VOLTAGE               3.3f
+    #define MAX_PWM_VALUE                0xFA0
+
+    double x, y, rThermistor, u;
+
+    x = (1 / THC) * (THA - (1 / (temperature + Thermistor_K2C)));
+    y = sqrt(((THB / (3 * THC)) * (THB / (3 * THC)) * (THB / (3 * THC))) + (x / 2) * (x / 2));
+    rThermistor = exp(pow(y - x / 2, 1.0f / 3.0f) - pow(y + x / 2, 1.0f / 3.0f));
+    u = SUPPLY_VOLTAGE * (rThermistor /  (rThermistor + RESISTOR_DIVIDER_VALUE));
+    return (uint16_t)((double)((MAX_PWM_VALUE * u) / SUPPLY_VOLTAGE));
+}
 
 void usbHIDRxCB(uint8_t epNumber, uint8_t numRx, uint8_t *rxData)
 {
@@ -79,7 +99,7 @@ void gpStartAutoSwitcherCommandCb(uint8_t channel,
 
 void gpSetTemperatureCommandCb(int temperature)
 {
-   setTemperature(temperature);
+   setTemperature(temperatureToPwm(temperature));
 }
 
 void rccConfig(void) {
@@ -87,8 +107,6 @@ void rccConfig(void) {
     RCC_PCLK1Config(RCC_HCLK_Div2);
     RCC_ADCCLKConfig(RCC_PCLK2_Div8);
 }
-
-
 
 int main(void)
 {
@@ -112,6 +130,7 @@ int main(void)
     ringBuffInit(&txRingBuff, RING_BUFF_DEPTH);
     servoControlInit(NULL);
     rccConfig();
+
     while(1)
     {
         if(popRingBuff(&rxRingBuff, rxBuff, &rxSize)) {

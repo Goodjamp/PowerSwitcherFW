@@ -11,3 +11,4 @@
 void temperatureImitatorInit(void);
 void setTimerCompareValue(uint16_t value);
 void generateTemperatureFlashTable(void);
+void setTemperature(uint16_t pwm);
