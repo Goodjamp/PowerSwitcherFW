@@ -18,6 +18,7 @@ typedef enum{
     GP_START_CLOCK_WISE       = 2,
     GP_START_CONTR_CLOCK_WISE = 3,
     GP_START_AUTO_SWITCHER    = 4,
+    GP_SET_TEMPERATURE        = 5,
 } GP_COMMAND;
 
 #pragma pack(push, 1)
@@ -48,6 +49,10 @@ typedef struct {
     uint32_t cnt;
 }GpStartAutoSwitcher;
 
+typedef struct {
+    int temperature;
+}GpSetTemperature;
+
 typedef struct GpCommand{
     uint8_t headr;
     union {
@@ -56,6 +61,7 @@ typedef struct GpCommand{
         GpStartContrClockWiseSubcommand startContrClockWiseSubcommand;
         GpStoptSubcommand               stoptSubcommand;
         GpStartAutoSwitcher             startAutoSwitcherSubcommand;
+        GpSetTemperature                setTemperatureSubCommand;
         uint8_t          buffSubComand[PROTOCOL_BUFF_SIZE];
     };
 } GpCommand;
@@ -98,6 +104,11 @@ void gpDecode(uint8_t buff[],  uint32_t size)
                                                         gpCommand->startAutoSwitcherSubcommand.offTime,
                                                         gpCommand->startAutoSwitcherSubcommand.onTime,
                                                         gpCommand->startAutoSwitcherSubcommand.cnt);
+            }
+            break;
+        case GP_SET_TEMPERATURE:
+            if (gpCbList->gpSetTemperatureCommandCb != NULL) {
+                gpCbList->gpSetTemperatureCommandCb(gpCommand->setTemperatureSubCommand.temperature);
             }
             break;
         default: break;
