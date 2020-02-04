@@ -14,6 +14,8 @@
 #include "temperature.h"
 #include "math.h"
 
+#include "i2cHandle.h"
+
 #define EP_N               1
 
 RingBuff  rxRingBuff;
@@ -130,7 +132,7 @@ int main(void)
     ringBuffInit(&txRingBuff, RING_BUFF_DEPTH);
     servoControlInit(NULL);
     rccConfig();
-
+    i2cHandleInit();
     while(1)
     {
         if(popRingBuff(&rxRingBuff, rxBuff, &rxSize)) {
