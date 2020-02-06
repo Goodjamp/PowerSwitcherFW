@@ -21,6 +21,12 @@ typedef void (*GpStartAutoSwitcherCommandCb)(uint8_t channel,
                                              uint16_t onTime,
                                              uint32_t cnt);
 typedef void (*GpSetTemperatureCommandCb)(int temperature);
+typedef void (*GpSetMidCommandCb)(uint8_t extModuleId,
+                                  uint8_t midData[],
+                                  uint8_t size);
+typedef void (*GpGetMidCommandCb)(uint8_t extModuleId,
+                                  uint8_t midData[],
+                                  uint8_t size);
 
 typedef struct GpInitCb {
     GpSendCb                       gpSendCb;
@@ -29,6 +35,8 @@ typedef struct GpInitCb {
     GpStartContrClockWiseCommandCb gpStartContrClockWiseCommandCb;
     GpStartAutoSwitcherCommandCb   gpStartAutoSwitcherCommandCb;
     GpSetTemperatureCommandCb      gpSetTemperatureCommandCb;
+    GpSetMidCommandCb              gpSetMidCommandCb;
+    GpGetMidCommandCb              gpGetMidCommandCb;
 } GpInitCb;
 
 void gpInit(const GpInitCb *gpCbIn);

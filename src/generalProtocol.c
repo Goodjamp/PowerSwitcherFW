@@ -19,6 +19,8 @@ typedef enum{
     GP_START_CONTR_CLOCK_WISE = 3,
     GP_START_AUTO_SWITCHER    = 4,
     GP_SET_TEMPERATURE        = 5,
+    GP_SET_MID                = 6,
+    GP_GET_MID                = 7,
 } GP_COMMAND;
 
 #pragma pack(push, 1)
@@ -53,6 +55,19 @@ typedef struct {
     int temperature;
 }GpSetTemperature;
 
+#define MAX_MID_DATA_LEN 20
+typedef struct {
+    uint8_t extModuleId;
+    uint8_t midDataLen;
+    uint8_t midData[MAX_MID_DATA_LEN];
+}GpSetMidSubCommand;
+
+typedef struct {
+    uint8_t extModuleId;
+    uint8_t midDataLen;
+    uint8_t midData[MAX_MID_DATA_LEN];
+}GpGetMidSubCommand;
+
 typedef struct GpCommand{
     uint8_t headr;
     union {
@@ -62,6 +77,8 @@ typedef struct GpCommand{
         GpStoptSubcommand               stoptSubcommand;
         GpStartAutoSwitcher             startAutoSwitcherSubcommand;
         GpSetTemperature                setTemperatureSubCommand;
+        GpSetMidSubCommand              setMidSubCommand;
+        GpGetMidSubCommand              getMidSubCommand;
         uint8_t          buffSubComand[PROTOCOL_BUFF_SIZE];
     };
 } GpCommand;
@@ -111,6 +128,29 @@ void gpDecode(uint8_t buff[],  uint32_t size)
                 gpCbList->gpSetTemperatureCommandCb(gpCommand->setTemperatureSubCommand.temperature);
             }
             break;
+
+        case GP_SET_MID:
+            if (gpCbList->gpSetMidCommandCb != NULL) {
+                gpCbList->gpSetMidCommandCb(gpCommand->setMidSubCommand.extModuleId,
+                                            gpCommand->setMidSubCommand.midData,
+                                            gpCommand->setMidSubCommand.midDataLen);
+            }
+            break;
+
+        case GP_GET_MID: {
+            GpCommandBuff getMidCommand = {
+                .command.headr = GP_GET_MID
+            };
+            getMidCommand.command.getMidSubCommand.extModuleId = gpCommand->getMidSubCommand.extModuleId;
+            getMidCommand.command.getMidSubCommand.midDataLen = gpCommand->getMidSubCommand.midDataLen;
+            if (gpCbList->gpGetMidCommandCb != NULL) {
+                gpCbList->gpGetMidCommandCb(getMidCommand.command.getMidSubCommand.extModuleId,
+                                            getMidCommand.command.getMidSubCommand.midData,
+                                            getMidCommand.command.getMidSubCommand.midDataLen);
+            }
+            gpCbList->gpSendCb(getMidCommand.buff, sizeof(getMidCommand));
+            break;
+        }
         default: break;
     }
 }

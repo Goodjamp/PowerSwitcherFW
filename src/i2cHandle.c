@@ -9,6 +9,7 @@
 #include "stdbool.h"
 #include "string.h"
 
+
 #define I2C_SLAVE           I2C1
 #define I2C_CLOCK_SPEED     100000 // 100 kHz
 #define I2C_ADDRESS_1       0b10100000
@@ -66,16 +67,7 @@ void i2cHandleInit(void)
     I2C_ITConfig(I2C_SLAVE, I2C_IT_ERR, ENABLE);
 
     /** hardcode test data */
-    memset(slaveStates[0].rxBuff, 0xff, sizeof(slaveStates[0].rxBuff));
-    memset(slaveStates[0].txBuff, 0xff, sizeof(slaveStates[0].txBuff));
-    for (uint8_t i = 0; i < sizeof(slaveStates[1].rxBuff); i++) {
-        slaveStates[1].rxBuff[i] = i;
-    }
-    for (uint8_t i = 0; i < sizeof(slaveStates[1].txBuff); i++) {
-        slaveStates[1].txBuff[i] = i;
-    }
-    //memset(slaveStates[1].rxBuff, 0xff, sizeof(slaveStates[1].rxBuff));
-    //memset(slaveStates[1].txBuff, 0xff, sizeof(slaveStates[1].txBuff));
+    memset(slaveStates, 0xff, sizeof(slaveStates));
     NVIC_DisableIRQ(I2C1_EV_IRQn);
     NVIC_SetPriority(I2C1_EV_IRQn, 2);
     NVIC_EnableIRQ(I2C1_EV_IRQn);
@@ -138,4 +130,12 @@ void I2C1_ER_IRQHandler(void)
         I2C_ClearFlag(I2C_SLAVE, I2C_FLAG_BUSY);
     }
 
+}
+
+void i2cHandleUpdateTxData(uint8_t slave, uint8_t data[], uint8_t size)
+{
+    if (slave > SLAVE_COUNT || size > MAX_BUFF_DATA_LEN) {
+        return;
+    }
+    memcpy(slaveStates[slave].txBuff, data, size);
 }
