@@ -14,6 +14,9 @@
 #include "temperature.h"
 #include "math.h"
 
+#include "i2cHandle.h"
+#include "externalModuleMid.h"
+
 #define EP_N               1
 
 RingBuff  rxRingBuff;
@@ -30,6 +33,12 @@ void gpStartAutoSwitcherCommandCb(uint8_t channel,
                                   uint16_t onTime,
                                   uint32_t cnt);
 void gpSetTemperatureCommandCb(int temperature);
+void gpSetMidCommandCb(uint8_t extModuleId,
+                       uint8_t midData[],
+                       uint8_t size);
+void gpGetMidCommandCb(uint8_t extModuleId,
+                       uint8_t midData[],
+                       uint8_t size);
 
 const GpInitCb gpInitCb = {
     .gpSendCb                       = gpSendCb,
@@ -38,6 +47,8 @@ const GpInitCb gpInitCb = {
     .gpStartContrClockWiseCommandCb = gpStartContrClockWiseCommandCb,
     .gpStartAutoSwitcherCommandCb   = gpStartAutoSwitcherCommandCb,
     .gpSetTemperatureCommandCb      = gpSetTemperatureCommandCb,
+    .gpSetMidCommandCb              = gpSetMidCommandCb,
+    .gpGetMidCommandCb              = gpGetMidCommandCb,
 };
 
 uint16_t temperatureToPwm(int temperature)
@@ -102,6 +113,20 @@ void gpSetTemperatureCommandCb(int temperature)
    setTemperature(temperatureToPwm(temperature));
 }
 
+void gpSetMidCommandCb(uint8_t extModuleId,
+                       uint8_t midData[],
+                       uint8_t size)
+{
+    externalModuleMidSet(extModuleId, midData, size);
+}
+
+void gpGetMidCommandCb(uint8_t extModuleId,
+                       uint8_t midData[],
+                       uint8_t size)
+{
+    externalModuleMidGet(extModuleId, midData, size);
+}
+
 void rccConfig(void) {
     RCC_PCLK2Config(RCC_HCLK_Div2);
     RCC_PCLK1Config(RCC_HCLK_Div2);
@@ -130,6 +155,8 @@ int main(void)
     ringBuffInit(&txRingBuff, RING_BUFF_DEPTH);
     servoControlInit(NULL);
     rccConfig();
+    i2cHandleInit();
+    externalModuleMidInit();
 
     while(1)
     {
